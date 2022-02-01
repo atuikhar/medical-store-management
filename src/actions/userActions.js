@@ -2,7 +2,6 @@ import { USER_LOGIN_REQUEST, LOGOUT, USER_REQUEST } from 'constants/constants'
 
 export const login = (username, password) => async (dispatch) => {
   const data = { username, password }
-  localStorage.setItem('userInfo', JSON.stringify(data))
 
   dispatch({
     type: USER_LOGIN_REQUEST,
