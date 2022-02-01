@@ -1,7 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { login, checkUser } from 'actions/userActions'
+import Form from 'components/Form/Form'
+import { Box, TextField, Button, Typography } from '@mui/material'
+import { login } from 'actions/userActions'
 
 export const LoginForm = () => {
   const [username, setUsername] = React.useState('')
@@ -13,36 +15,62 @@ export const LoginForm = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  console.log(userInfo)
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(login(username, password))
-    // navigate('/home')
-
-    dispatch(checkUser())
-
-    if (userInfo) {
+  const checkAuth = () => {
+    if (
+      userInfo.username === 'test-admin' &&
+      userInfo.password === 'test-admin'
+    ) {
       navigate('/home')
+    } else if (
+      userInfo.username === 'test-sales' &&
+      userInfo.password === 'test-sales'
+    ) {
+      navigate('/home')
+    } else {
+      navigate('/error')
     }
   }
 
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>Login</h1>
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(login(username, password))
+    setTimeout(() => {
+      checkAuth()
+    }, 100)
+  }
 
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type="text"
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+  return (
+    <Form>
+      <Typography variant="h2">SignIn</Typography>
+      <Box sx={{ minWidth: '35ch' }}>
+        <form onSubmit={handleSubmit}>
+          <Box style={{ marginTop: 30 }}>
+            <TextField
+              required
+              fullWidth
+              label="Username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Box>
+          <Box style={{ marginTop: 30 }}>
+            <TextField
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Box>
+          <Box style={{ marginTop: 10 }}>
+            <Button type="submit" variant="contained">
+              Login
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Form>
   )
 }
