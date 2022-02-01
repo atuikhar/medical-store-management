@@ -17,10 +17,14 @@ export const Header = () => {
     <NavWrapper>
       <Nav>
         <Link style={{ color: '#fa4549', textDecoration: 'none' }} to="/">
-          <LogoIcon />
+          <LogoIcon fontSize="large" />
         </Link>
         {location.pathname === '/home' ? (
-          <LogOut onClick={logOutHandler} style={{ color: '#fa4549' }} />
+          <LogOut
+            fontSize="large"
+            onClick={logOutHandler}
+            style={{ color: '#fa4549' }}
+          />
         ) : null}
       </Nav>
     </NavWrapper>
